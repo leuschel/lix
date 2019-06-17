@@ -1,0 +1,10 @@
+logen(ptree, ptree(A)) :-
+        logen(call, atomic(A)),
+        logen(rescall, print(A)).
+logen(ptree, ptree(A)) :-
+        logen(call, A=..[B,C,D]),
+        logen(memo, ptree(C)),
+        logen(rescall, print(B)),
+        logen(unfold, ptree(D)).
+:- filter
+        ptree(static).

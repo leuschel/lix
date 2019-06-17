@@ -1,0 +1,5 @@
+(:-module(_,[ptree__0/0,ptree__1/0])).
+(:-include(_)).
+gennum(num_num, 2).
+memo_table(0, ptree(f(a,g(a,a))), ptree__0, done(user), []).
+memo_table(1, ptree(a), ptree__1, done(internal), []).

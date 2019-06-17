@@ -1,0 +1,58 @@
+#!/bin/bash
+
+runBenchMark() {
+	echo -n "$INDENT"
+	sicstus -l $FILE --goal "go, halt." 2> /dev/null
+}
+
+makeLixCogen() {
+
+    sicstus -l ../../../lix_main.pl --goal "lix(lix(lix(A,R1),R2),R3), portray_clause(':-'(cogen(A,R1,R2),R3)),halt." 2> /dev/null > $LixCogen
+    
+}
+
+INDENT="                       "
+
+
+echo -n "Creating GX file..."
+sicstus -l "../../../lix_main.pl" --goal "lix(lix(bench(A,B),R),R1),portray_clause(':-'(gx(bench(A,B),R), R1)), halt." 2> /dev/null > bench.gx
+echo "OK"
+
+echo -n "Creating Cogen..."
+LixCogen='cogen.pl'
+makeLixCogen
+echo "OK"
+
+
+echo "Creating GX bench mark (x100)"
+FILE='benchgxcreate.pl'
+runBenchMark
+
+echo "Creating GX from Cogen bench mark (x100)"
+FILE='benchcogengx.pl'
+runBenchMark
+
+echo "Creating Cogen from Lix bench mark (x100)"
+FILE='benchcogen.pl'
+runBenchMark
+
+FILE="benchfib.pl"
+echo "Benchmarking lix(bench(A,B), R) (x100) --"
+runBenchMark
+runBenchMark
+runBenchMark
+
+FILE="benchfibgx.pl"
+echo "Benchmarking gx(bench(A,B), R) (x100) --"
+runBenchMark
+runBenchMark
+runBenchMark
+
+
+
+
+
+
+
+
+

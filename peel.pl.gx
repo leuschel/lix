@@ -1,0 +1,43 @@
+
+
+
+
+/*  --------------------  */
+/*  GENERATING EXTENSION  */
+/*  --------------------  */
+ :- module('peel.pl.gx', [ptree_spec / 3,ptree_request / 3,residual_predicate / 2,op_def_gx / 3,dynamic_gx / 1,use_library_gx / 1,table_gx / 1]).
+:- use_module('/home/sjc02r/cvs_root/cogen2/logen_source/memo.pl').
+:- use_module('/home/sjc02r/cvs_root/cogen2/logen_source/cogen-tools.pl').
+:- use_module('/home/sjc02r/cvs_root/cogen2/logen_source/cogen.pl').
+:- use_module('/home/sjc02r/cvs_root/cogen2/logen_source/gx_pp.pl').
+:- dynamic op_ref_gx/2.
+
+table_gx(_) :-
+        fail.
+op_def_gx(_, _, _) :-
+        fail.
+dynamic_gx(_) :-
+        fail.
+use_library_gx(_) :-
+        fail.
+ptree_request(A, Requestor, ResidualCall) :-
+        (   find_pattern(_, ptree(A), ResidualCall, _) ->
+            true
+        ;   insert_pattern_with_filter_types(ptree(A), [[static]], ResidualCall, request(Requestor)),
+            ptree(A)=ptree(A)
+        ).
+ptree_spec(A, B, C) :-
+        lookup_pattern_and_mark(ptree(A), C, pending(B)),
+        findall(D, (call_residue(ptree_u(A,E),F),cogen:inspect_residual(F,G),(G=true->D=clause(C,E);D=clause(C,(G,E)))), H),
+        assert_gx_clauses(H),
+        lookup_pattern_and_mark(ptree(A), C, done(B)).
+ptree_u(A, print(A)) :-
+        atomic(A).
+ptree_u(A, (B,print(C),D)) :-
+        A=..[C,E,F],
+        ptree_request(E, internal, B),
+        ptree_u(F, D).
+residual_predicate(_, _) :-
+        fail.
+
+/* GX file Generated in 0 ms */
