@@ -8,6 +8,7 @@ go :-
 	make_ann('lix.pl.ann', 'lix_main.pl').
 
 make_ann(Filename,Save) :-
+    format(user_output,'Generating Prolog file ~w~n',[Save]),
 	tell(Save),
 	print('/*Automatically generated do not change*/'),
 	nl,
@@ -19,15 +20,13 @@ make_ann(Filename,Save) :-
 	told.
 
 make_ann(Filename) :-
+    format(user_output,'Reading annotation file ~w~n',[Filename]),
 	see(Filename),
 	readTerms,
 	seen,
 	annfile:load_annfile(Filename),	
 	print_annclause,
 	print_filter.
-	
-
-
 
 
 readTerms :-
