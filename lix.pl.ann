@@ -169,13 +169,13 @@ logen(set_flag, set_flag(A,B)) :-
 logen(set_flag, set_flag(A,B)) :-
         logen(call, nonvar(A)),
         logen(rescall, asserta(flag(A,B))).
-logen(append, append([],A,A)).
-logen(append, append([A|B],C,[A|D])) :-
-        logen(unfold, append(B,C,D)).
+logen(appendu, appendu([],A,A)).
+logen(appendu, appendu([A|B],C,[A|D])) :-
+        logen(unfold, appendu(B,C,D)).
 logen(string_concat, string_concat(A,B,C)) :-
         logen(call, name(A,D)),
         if(logen(call,var(B)), logen(rescall,name(B,E)), logen(call,name(B,E))),
-        logen(unfold, append(D,E,F)),
+        logen(unfold, appendu(D,E,F)),
         if(logen(call,var(B)), logen(rescall,name(C,F)), logen(call,name(C,F))).
 logen(filter, filter(app(_,_,_),[dynamic,static,dynamic])).
 logen(ann_clause, ann_clause(1,app([],A,A),true)).
