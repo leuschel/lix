@@ -4,9 +4,11 @@
 	    print_error_line_number/1, print_error_line_number/0,
 	    print_debug_message/1]).
 
+:- if(current_prolog_flag(dialect, ciao)).
 :- use_package(.(sicsignore)).
 
 ciao((:- set_prolog_flag(multi_arity_warnings, off))).
+:- endif.
 
 print_error_line_number(Error) :-
     print_error(Error),print_error_line_number.

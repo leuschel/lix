@@ -39,8 +39,10 @@
 :- op(500,yfx,--->).
 
 %:- use_package(.(sicsignore)).
+:- if(current_prolog_flag(dialect, ciao)).
 :- use_package(sicsignore).
 ciao((:- use_module(library(dec10_io)))).
+:- endif.
 
 
 %:- use_module('cogen-tools').
@@ -48,8 +50,6 @@ ciao((:- use_module(library(dec10_io)))).
 :- use_module('ann_db.pl').
 :- use_module('logen_messages.pl').
 
-
-:- use_package( .(sicsignore) ).
 
 ciao(logen_annotation_structure(A,B,C,D)) :- ann_db:logen_annotation_structure(A,B,C,D).
 %ciao(remove_annotation_body(A,B)) :- ann_db:remove_annotation_body(A,B).
